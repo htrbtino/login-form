@@ -28,11 +28,10 @@
                     ]
                 };
 
-                // Error message container
+                // Hide previous error or success messages
                 var errorMessage = document.getElementById("error-message");
                 errorMessage.style.display = "none"; // Hide error message initially
 
-                // Success message container
                 var successMessage = document.getElementById("success-message");
                 successMessage.style.display = "none"; // Hide success message initially
 
@@ -75,6 +74,18 @@
                 successMessage.textContent = "Welcome to the system, " + role + "!";
                 successMessage.style.display = "block"; // Show the success message
             }
+
+            // Close error message
+            function closeErrorMessage() {
+                var errorMessage = document.getElementById("error-message");
+                errorMessage.style.display = "none";
+            }
+
+            // Close success message
+            function closeSuccessMessage() {
+                var successMessage = document.getElementById("success-message");
+                successMessage.style.display = "none";
+            }
         </script>
     </head>
     <body>
@@ -84,6 +95,10 @@
                 position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; 
                 width: 300px; padding: 15px 25px; font-size: 16px; text-align: center;">
                 <strong>Error!</strong> <span id="modal-error-message">Invalid username / password.</span>
+                <!-- Close button (X) -->
+                <button type="button" class="close" aria-label="Close" onclick="closeErrorMessage()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <!-- Success Message at the top, sized like the login form -->
@@ -91,6 +106,10 @@
                 position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; 
                 width: 300px; padding: 15px 25px; font-size: 16px; text-align: center;">
                 <strong>Success!</strong> <span id="modal-success-message">Welcome to the system, [role]!</span>
+                <!-- Close button (X) -->
+                <button type="button" class="close" aria-label="Close" onclick="closeSuccessMessage()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <div class="card card-container" style="margin-top: 100px;"> <!-- Adjust for error/success message -->
