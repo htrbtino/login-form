@@ -28,53 +28,98 @@
                     ]
                 };
 
+                // Error message container
+                var errorMessage = document.getElementById("error-message");
+                errorMessage.style.display = "none"; // Hide error message initially
+
+                // Success message container
+                var successMessage = document.getElementById("success-message");
+                successMessage.style.display = "none"; // Hide success message initially
+
                 // Check if the selected role is valid
-                if (!role || !users[role]) {
-                    alert("Please select a valid role.");
+                if (!role) {
+                    showErrorMessage("Please select a role.");
+                    return;
+                }
+
+                // Check if the username or password fields are empty
+                if (!username || !password) {
+                    showErrorMessage("Please enter both username and password.");
                     return;
                 }
 
                 // Check if the username and password match for the selected role
-                var isValid = users[role].some(function(user) {
+                var isValid = users[role] && users[role].some(function(user) {
                     return user.username === username && user.password === password;
                 });
 
-                // Display appropriate message
-                if (isValid) {
-                    alert("Login successful!");
+                // If credentials are invalid
+                if (!isValid) {
+                    showErrorMessage("Invalid username / password.");
                 } else {
-                    alert("Invalid username or password.");
+                    // If valid, show success message
+                    showSuccessMessage(role);
                 }
+            }
+
+            // Function to show the error message at the top
+            function showErrorMessage(message) {
+                var errorMessage = document.getElementById("error-message");
+                errorMessage.textContent = message;
+                errorMessage.style.display = "block"; // Show the error message
+            }
+
+            // Function to show the success message at the top
+            function showSuccessMessage(role) {
+                var successMessage = document.getElementById("success-message");
+                successMessage.textContent = "Welcome to the system, " + role + "!";
+                successMessage.style.display = "block"; // Show the success message
             }
         </script>
     </head>
     <body>
         <div class="container">
-            <div class="card card-container">
-                <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+            <!-- Error Message at the top, sized like the login form -->
+            <div id="error-message" class="alert alert-danger alert-dismissible fade show" style="display:none; 
+                position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; 
+                width: 300px; padding: 15px 25px; font-size: 16px; text-align: center;">
+                <strong>Error!</strong> <span id="modal-error-message">Invalid username / password.</span>
+            </div>
+
+            <!-- Success Message at the top, sized like the login form -->
+            <div id="success-message" class="alert alert-success alert-dismissible fade show" style="display:none; 
+                position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; 
+                width: 300px; padding: 15px 25px; font-size: 16px; text-align: center;">
+                <strong>Success!</strong> <span id="modal-success-message">Welcome to the system, [role]!</span>
+            </div>
+
+            <div class="card card-container" style="margin-top: 100px;"> <!-- Adjust for error/success message -->
                 <img id="profile-img" class="profile-img-card" src="img/avatar_2x.png" />
+
                 <form class="form-signin" onsubmit="validateLogin(event)">
                     <span id="reauth-email" class="reauth-email"></span>
-                    
+
                     <!-- Role Dropdown at the top -->
-                    <select class="form-control mb-3" id="roleSelect" required>
+                    <select class="form-control mb-3" id="roleSelect">
                         <option value="">-- Select Role --</option>
                         <option value="admin">Admin</option>
                         <option value="contentManager">Content Manager</option>
                         <option value="systemUser">System User</option>
                     </select>
 
-                    <!-- Change Email to Username -->
-                    <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                    <!-- Username Input -->
+                    <input type="text" id="inputUsername" class="form-control" placeholder="Username">
 
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <!-- Password Input -->
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password">
 
                     <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
                 </form><!-- /form -->
             </div><!-- /card-container -->
         </div><!-- /container -->
-        
-        <script type="text/javascript" src="js/jquery-4.0.0.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
+
+        <!-- Include Bootstrap JS and jQuery (required for modal functionality) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>
